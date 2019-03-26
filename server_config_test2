@@ -1,0 +1,46 @@
+# This config is for a second server used for integration tests
+port 4000;
+
+root ./static;
+
+handler static {
+  location /img;
+  root /img/;
+}
+
+handler static {
+  location /app;
+  root /app/;
+}
+
+handler static {
+  location /text;
+  root /text/;
+}
+
+handler echo {
+  location /echo;
+}
+
+handler echo {
+  location /print;
+}
+
+handler status {
+	location /status;
+}
+
+handler proxy {
+  location /google;
+  destination www.google.com;
+}
+
+handler proxy {
+  location /facebook;
+  destination www.facebook.com;
+}
+
+handler proxy {
+  location /proxy;
+  destination 0.0.0.0:4000;
+}

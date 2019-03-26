@@ -1,0 +1,65 @@
+port 80;
+
+root ./static;
+
+handler static {
+  location /img;
+  root /img/;
+}
+
+handler static {
+  location /app;
+  root /app/;
+}
+
+handler static {
+  location /text;
+  root /text/;
+}
+
+handler echo {
+  location /echo;
+}
+
+handler echo {
+  location /print;
+}
+
+handler status {
+  location /status;
+}
+
+handler proxy {
+  location /google;
+  destination www.google.com;
+}
+
+handler meme_home {
+  location /meme/home;
+  root /meme/home.html;
+}
+
+handler meme_new {
+  location /meme/new;
+  root /meme/new.html;
+}
+
+handler meme_create {
+  location /meme/create;
+}
+
+handler meme_view {
+  location /meme/view;
+}
+
+handler meme_list {
+  location /meme/list;
+}
+
+handler meme_delete {
+  location /meme/delete;
+}
+
+handler health_check_request {
+  location /health_check_request;
+}

@@ -1,0 +1,13 @@
+foo "bar";
+
+
+server {
+listen 80;
+# Make it complicated
+  client {
+length 10;
+  }
+  server_name foo.com;
+  root /home/ubuntu/sites/foo/;
+index    index.html index.php;
+}

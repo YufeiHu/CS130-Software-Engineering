@@ -1,0 +1,190 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Meme Creation Page">
+    <meta name="author" content="Yufei Hu">
+
+    <title>Meme Creation</title>
+
+    <style type="text/css">
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      div.center {
+        text-align: center;
+      }
+
+      div.warning {
+        color: red;
+        text-align: center;
+      }
+
+      input[type=text], select, textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-top: 6px;
+        margin-bottom: 16px;
+        resize: vertical;
+      }
+
+      input[type=submit] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      input[type=submit]:hover {
+        background-color: #45a049;
+      }
+
+      .container {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+      }
+
+      .pill-nav a {
+        display: block;
+        color: black;
+        padding: 14px;
+        text-decoration: none;
+        font-size: 17px;
+        border-radius: 5px;
+        text-align: center;
+        background-color: #ddd;
+        margin-top: 5px;
+      }
+
+      .pill-nav a:hover {
+        background-color: dodgerblue;
+        color: white;
+      }
+
+      .pill-nav a.active {
+        background-color: dodgerblue;
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="center">
+      <h1>Meme Creation</h1>
+    </div>
+
+    <div class="warning">
+      <p id="warning"></p>
+    </div>
+
+    <div class="container">
+      <form action="/meme/create" method="post" onsubmit="return checkInput(this);">
+        <label for="image">Select an image</label>
+        <select id="selectTemplate" name="image">
+          <option value="Select a template...">Select a template...</option>
+          <option value="girl.gif">girl.gif</option>
+          <option value="eye.jpg">eye.jpg</option>
+          <option value="nuke.png">nuke.png</option>
+        </select><br>
+        <label for="topText">Image top text</label>
+        <input id="topText" type="text" name="top" placeholder="e.g. Girl"><br>
+        <label for="bottomText">Image bottom text</label>
+        <input id="bottomText" type="text" name="bottom" placeholder="e.g. Look behind you"><br>
+        <input id="submit" type="submit" value="Create">
+      </form>
+    </div>
+
+    <div class="pill-nav">
+      <a href="/meme/home">Home</a>
+    </div>
+
+    <!-- JavaScript -->
+    <script type="text/javascript">
+      function checkInput(form) {
+        let upperLimit = 100;
+        let banned = ['<', '>', '&', '='];
+        let selectTemplate = document.getElementById("selectTemplate").value;
+        let topText = document.getElementById("topText").value;
+        let bottomText = document.getElementById("bottomText").value;
+        if (selectTemplate == "Select a template...") {
+          document.getElementById("warning").innerHTML = "You must select a template!";
+          return false;
+        }
+        if (topText.length == 0) {
+          document.getElementById("warning").innerHTML = "Input image title cannot be empty!";
+          return false;
+        }
+        if (topText.length > upperLimit) {
+          document.getElementById("warning").innerHTML = "Input image title cannot exceed " + upperLimit + "!";
+          return false;
+        }
+        for (let i = 0; i < banned.length; i++) {
+          if (topText.indexOf(banned[i]) > -1) {
+            document.getElementById("warning").innerHTML = "Do not type \"" + banned[i] + "\"";
+            return false;
+          }
+        }
+
+        if (bottomText.length == 0) {
+          document.getElementById("warning").innerHTML = "Input image comments cannot be empty!";
+          return false;
+        }
+        if (bottomText.length > upperLimit) {
+          document.getElementById("warning").innerHTML = "Input image comments cannot exceed " + upperLimit + "!";
+          return false;
+        }
+        for (let i = 0; i < banned.length; i++) {
+          if (bottomText.indexOf(banned[i]) > -1) {
+            document.getElementById("warning").innerHTML = "Do not type \"" + banned[i] + "\"";
+            return false;
+          }
+        }
+
+        let topTextEsc = '';
+        for (let i = 0; i < topText.length; i++) {
+          if (topText.charAt(i) == '\"') {
+            topTextEsc = topTextEsc + 'U22';
+          } else if(topText.charAt(i) == '\'') {
+            topTextEsc = topTextEsc + 'U27';
+          } else {
+            topTextEsc = topTextEsc + topText.charAt(i);
+          }
+        }
+        document.getElementById("topText").value = topTextEsc;
+
+        let bottomTextEsc = '';
+        for (let i = 0; i < bottomText.length; i++) {
+          if (bottomText.charAt(i) == '\"') {
+            bottomTextEsc = bottomTextEsc + 'U22';
+          } else if(bottomText.charAt(i) == '\'') {
+            bottomTextEsc = bottomTextEsc + 'U27';
+          } else {
+            bottomTextEsc = bottomTextEsc + bottomText.charAt(i);
+          }
+        }
+        document.getElementById("bottomText").value = bottomTextEsc;
+        return true;
+      }
+      function sleep(milliseconds) {
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+          if ((new Date().getTime() - start) > milliseconds) {
+            break;
+          }
+        }
+      }
+    </script>
+
+  </body>
+</html>
