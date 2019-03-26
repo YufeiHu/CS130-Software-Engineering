@@ -1,7 +1,7 @@
 <!-- https://gist.github.com/PurpleBooth/109311bb0361f32d87a2 -->
 # Nuke-server 
 
-One simple web server developed written in C++ by Yufei Hu, Zhechen Xu, Junheng Hao, and Qi Zeng for the UCLA CS130 Software Engineering class.
+One simple web server developed written in C++ by Yufei Hu, Zhechen Xu, Junheng Hao, and Qi Zeng for the UCLA CS130 Software Engineering class (2019 Winter)
 
 ## Abstract
 
